@@ -1,0 +1,48 @@
+----------------------
+---- MODELE MLP ------
+----------------------
+Représentation du texte : 
+TF-IDF au lieu du "Sac de mots" (Bag of Words) : Pour préparer les textes à être lus par le réseau de neurones, 
+il a fallu choisir une méthode de vectorisation. Au lieu d'utiliser une simple approche "Sac de mots" (Bag of Words) 
+qui se contente de compter les occurrences de chaque mot, le choix s'est porté sur TF-IDF.
+En effet, le Bag of Words génère des valeurs entières brutes (parfois très grandes) et donne trop d'importance aux mots 
+fréquents mais peu porteurs de sens. À l'inverse, TF-IDF pondère l'importance des mots et normalise les vecteurs 
+(les valeurs sont comprises entre 0 et 1). 
+
+Cette normalisation est absolument cruciale pour un modèle MLP : 
+elle permet aux algorithmes d'optimisation (descente de gradient) d'ajuster les poids du réseau en douceur et de manière stable. 
+Si l'on avait gardé un simple sac de mots ou une fonction non bornée (comme BM25), 
+les grandes valeurs d'entrée auraient pu faire "exploser" les gradients et rendre l'apprentissage du réseau instable.
+
+Gestion du déséquilibre des classes : 
+Le jeu de données Yelp n'étant pas homogène, une pondération dynamique (class_weight='balanced') a été 
+appliquée lors de l'entraînement. Le modèle subit une lourde pénalité s'il se trompe sur les classes 
+minoritaires (comme les avis à 2 ou 3 étoiles), forçant ainsi le réseau à prêter une attention rigoureuse 
+aux avis mitigés plutôt que de choisir la facilité de prédire systématiquement la classe majoritaire.
+
+Observation : 
+Les graphiques de performances ont révélé la propension du modèle à apprendre très vite les mots-clés à émotions fortes. 
+Des mécanismes de régularisation ont été mis en place, notamment l'arrêt précoce (Early Stopping) pour stopper 
+l'apprentissage dès que le modèle commence à faire du sur-apprentissage (Overfitting) sur les données d'entraînement.
+
+
+----------------------
+---- MODELE CNN ------
+----------------------
+Tokenisation et Embedding : 
+Contrairement au MLP qui utilise des techniques de type "sac de mots" (Bag of Words) 
+où la structure de la phrase est perdue, le CNN a besoin de lire la séquence dans l'ordre 
+pour que ses filtres agissent. Les textes sont d'abord traduits en suites de chiffres via un Tokenizer, 
+puis complétés à une longueur fixe (Padding de 100 mots). Une couche fondamentale d'Embedding transforme 
+ensuite ces numéros en vecteurs de sens (coordonnées mathématiques intelligentes) avant de les soumettre au réseau.
+
+Rôle des Filtres : 
+Les couches de convolution agissent comme des "lunettes" qui glissent sur le texte pour repérer 
+des n-grammes pertinents (groupes de mots comme "not good at all"). Une fois ces motifs détectés, 
+la couche de MaxPooling permet d'isoler et de ne garder que l'information ou le sentiment le plus fort de l'avis.
+
+Observation : 
+Le CNN montre une excellente capacité à capturer la proximité sémantique et spatiale, atteignant de hauts scores de confiance. 
+Il réussit là où le MLP montre ses limites : comprendre le contexte local autour d'un mot. 
+Ce gain en compréhension contextuelle nécessite toutefois un encodage bien plus sophistiqué et se heurte, 
+comme les autres, à la subjectivité inhérente des notes neutres ou intermédiaires.
