@@ -93,17 +93,3 @@ Utilisation de **LLM (Large Language Models)** via LangChain/LlamaIndex pour all
     ```
     OPENAI_API_KEY=sk-...
     ```
-
-### Structure du Dépôt
-```bash
-├── data/              
-├── notebooks/        
-│   ├── 1_EDA_Analysis.ipynb
-│   ├── 2_Classic_ML_Models.ipynb
-│   ├── 3_Deep_Learning_BERT.ipynb
-│   └── 4_GenAI_Agents.ipynb
-├── src/               
-├── results/           
-├── requirements.txt  
-└── README.md          
-
