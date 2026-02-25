@@ -1,8 +1,8 @@
 # S6C01-Apprentissage_automatique
-**Lucie MASSELIN**
-**Tsinjo Mirantsoa RANDRIANARISON RATSIANDAVANA**
-**Flavien ALCAZAR**
-**Aminata Oumou Rassoul NGOM**
+- **Lucie MASSELIN**
+- **Tsinjo Mirantsoa RANDRIANARISON RATSIANDAVANA**
+- **Flavien ALCAZAR**
+- **Aminata Oumou Rassoul NGOM**
 
 **Groupe :** Groupe 3
 
