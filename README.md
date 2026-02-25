@@ -1,8 +1,8 @@
 # S6C01-Apprentissage_automatique
 **Lucie MASSELIN**
-**Tsinjo RANDRIANARISON**
+**Tsinjo Mirantsoa RANDRIANARISON RATSIANDAVANA**
 **Flavien ALCAZAR**
-**Aminata NGOM**
+**Aminata Oumou Rassoul NGOM**
 
 **Groupe :** Groupe 3
 
@@ -33,7 +33,7 @@ Le projet s'appuie sur le **Yelp Open Dataset**, un jeu de données riche compre
 * `user.json` : Profils des utilisateurs (influence, ancienneté).
 * `photo.json` : Métadonnées des images associées.
 
-> **Attention :** Les fichiers de données étant volumineux, ils ne sont pas inclus dans ce dépôt. Veuillez les placer dans le dossier `data/raw/` après téléchargement.
+> **Attention :** Les fichiers de données étant volumineux, ils ne sont pas inclus dans ce dépôt.
 
 ---
 
@@ -47,49 +47,41 @@ Analyse statistique approfondie pour comprendre le comportement des utilisateurs
 * **Corrélations :** Lien entre popularité d'un business et sévérité des notes.
 * **Analyse Utilisateur :** Les "gros revieweurs" sont-ils plus sévères ?
 * **Analyse Textuelle :** Comparaison de la longueur des avis et extraction des *Top 10 mots* (TF-IDF) par polarité.
-* **Impact Photos :** Corrélation entre le nombre de photos et la note moyenne.
+* **Impact Photos :** Corrélation entre le nombre de photos et la note moyenne. (que nous n'avons pas pu faire car pas de données)
 
-### 2. Modèles de Prédiction (ML & DL)
+### 2. Modèles de Prédiction
 Nous avons comparé plusieurs approches pour deux tâches : 
 * **Tâche 1 :** Classification de polarité (Négatif < 3, Neutre = 3, Positif > 3).
 * **Tâche 2 :** Prédiction du score exact (1 à 5 étoiles).
 
 **Matrice des expérimentations :**
 
-| Représentation du Texte | ML Classique | Deep Learning (Keras/PyTorch) | Transformers (HuggingFace) |
+| Représentation du Texte | Machine Learning | Deep Learning | IA Générative |
 | :--- | :--- | :--- | :--- |
-| **Bag-of-Words** | Régression Logistique | MLP (Dense) | - |
-| **TF-IDF** | SVM | - | - |
-| **Embeddings** | - | CNN (Conv1D) | BERT / RoBERTa (Fine-tuning) |
+| **Bag-of-Words** | Testé (Baseline) | Testé | - |
+| **TF-IDF** | SVM / Reg. Log. | MLP / CNN / BERT / LSTM | - |
+| **BM25** | Testé | Testé | - |
+| **Fine-tuning** | - | - | DistilBERT / RoBERTa |
+| **Zero/Few-shot** | - | - | Flan-T5 |
 
 ### 3. IA Générative et Agentique (GenAI)
-Utilisation de **LLM (Large Language Models)** via LangChain/LlamaIndex pour aller au-delà de la classification simple :
-* **Zero-shot Classification :** Prédiction de polarité sans entraînement spécifique.
-* **Aspect-Based Sentiment Analysis (ABSA) :** Extraction structurée des aspects spécifiques.
-    * *Exemple de sortie :* `{ "Nourriture": "Positif", "Service": "Négatif", "Prix": "Neutre" }`.
-* **Agentique :** Mise en place de chaînes de raisonnement pour l'analyse complexe.
+Exploration des modèles **Text-to-Text** pour aller au-delà de la classification simple.
+
+* **Zero-shot & Few-shot Learning** : Utilisation de **Google Flan-T5-Base** pour classer les avis sans (ou avec très peu) d'exemples d'entraînement, grâce au *Prompt Engineering*.
+* **Aspect-Based Sentiment Analysis (ABSA)** : Extraction automatique d'opinions par thèmes (Nourriture, Service, Prix) avec une sortie structurée au format **JSON**.
+* **Framework Agentique** : Mise en œuvre de **LangChain** pour créer des chaînes de raisonnement (*Chain of Thought*), améliorant la fiabilité des analyses complexes.
 
 ---
 
 ## Installation et Utilisation
 
 ### Prérequis
-* Python 3.10+
+* Python 3.12.10
 * Jupyter Notebook / Google Colab
-* Compte pour API Key (OpenAI ou HuggingFace)
 
 ### Installation
-1.  Cloner le dépôt :
-    ```bash
-    git clone [https://github.com/Lucie313/S6C01-Apprentissage_automatique.git](https://github.com/Lucie313/S6C01-Apprentissage_automatique.git)
-    cd sae6-yelp-analysis
-    ```
-2.  Installer les dépendances :
-    ```bash
-    pip install -r requirements.txt
-    ```
-3.  Configuration des clés API (pour la partie GenAI) :
-    Renommez `.env.example` en `.env` et ajoutez vos clés :
-    ```
-    OPENAI_API_KEY=sk-...
-    ```
+Cloner le dépôt :
+```bash
+git clone [https://github.com/Lucie313/S6C01-Apprentissage_automatique.git](https://github.com/Lucie313/S6C01-Apprentissage_automatique.git)
+cd sae6-yelp-analysis
+```
